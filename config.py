@@ -8,4 +8,4 @@ load_dotenv(join(BASEDIR, '.env'))
 
 VK_TOKEN = os.getenv('VK_TOKEN')
 GROUP_ID = os.getenv('GROUP_ID')
-DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('LOCAL_DATABASE_URL')
+DATABASE_URL = os.getenv('DATABASE_URL') or join(BASEDIR, 'db.sqlite')
