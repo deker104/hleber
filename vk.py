@@ -3,16 +3,12 @@ from random import randint
 from vk_api import VkApi, VkUpload
 from vk_api.bot_longpoll import VkBotLongPoll
 
-try:
-    with open('token.txt', 'r') as f:
-        token, group_id = [i.strip() for i in f.readlines()]
-except FileNotFoundError:
-    raise ImportError
+from config import VK_TOKEN, VK_GROUP_ID
 
-vk = VkApi(token=token)
+vk = VkApi(token=VK_TOKEN)
 vk_api = vk.get_api()
 upload = VkUpload(vk)
-long_poll = VkBotLongPoll(vk, group_id)
+long_poll = VkBotLongPoll(vk, VK_GROUP_ID)
 
 MAX_RANDOM = 2**64
 
