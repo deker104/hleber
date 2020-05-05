@@ -6,12 +6,15 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
+    is_volunteer = db.Column(db.Boolean, nullable=True)
     phone = db.Column(db.String, nullable=False)
 
 
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    order = db.Column(db.String, nullable=False)
-    volunteer = db.Column(db.String, nullable=True)
+    client_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    client = db.relationship('User', backref='orders_given')
+    volunteer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    volunteer = db.relationship('User', backref='orders_taken')
     text = db.Column(db.Text, nullable=False)
