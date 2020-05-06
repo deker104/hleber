@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 from config import DATABASE_URL, SECRET_KEY
@@ -22,9 +22,11 @@ def index():
 @app.route('/order', methods=['POST', 'GET'])
 def make_order():
     form = MakeOrder()
-    if form.validate_on_submit():
+    print(request.method)
+    if request.method == "POST":
         return "Успех!"
-    return render_template('make_order.html', form=form)
+    elif request.method == "GET":
+        return render_template('make_order.html', form=form)
 
 
 @app.route('/orders')
