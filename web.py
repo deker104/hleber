@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+if __name__ == '__main__':
+    from forms import MakeOrder
 
 from config import DATABASE_URL, SECRET_KEY
 
@@ -18,9 +20,12 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/order')
+@app.route('/order', methods=['POST', 'GET'])
 def make_order():
-    return render_template('make_order.html')
+    form = MakeOrder()
+    if form.validate_on_submit():
+        return "Успех!"
+    return render_template('make_order.html', form=form)
 
 
 @app.route('/orders')

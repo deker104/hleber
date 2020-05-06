@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Заказ товаров | Хлебер-β{% endblock %}
 {% block content %}
-    <p>Привет, пользователь! Наверняка рядом с тобой есть кто-то кто не может сам сходить в магазин.
-    На нашем сайте ты сможешь помочь таким, сходив за них за покупками! А может тебе самому нужны продукты?
-    Здесь тебе помогут!</p>
+<div>
+    {{ form.csrf_token }}
+</div>
+{% for field in form if field.name != 'csrf_token' %}
+<div>
+    {{ field.label() }}
+    {{ field() }}
+    {% for error in field.errors %}
+    <div class="error">{{ error }}</div>
+    {% endfor %}
+</div>
+{% endfor %}
 {% endblock %}
