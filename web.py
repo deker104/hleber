@@ -25,8 +25,7 @@ def make_order():
     print(request.method)
     if request.method == "POST":
         return "Успех!"
-    elif request.method == "GET":
-        return render_template('make_order.html', form=form)
+    return render_template('make_order.html', form=form)
 
 
 @app.route('/orders')

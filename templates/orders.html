@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% block title %}Список заказов | Хлебер-β{% endblock %}
 {% block content %}
 {% for order in query %}
     <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>

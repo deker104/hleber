@@ -12,6 +12,3 @@ class MakeOrder(FlaskForm):
     phone = StringField("Номер телефона", validators=[DataRequired()], default='88005553535')
     address = StringField("Адрес доставки", validators=[DataRequired()])
     text = TextAreaField("Тескт заказа", validators=[DataRequired()])
-    sbm = SubmitField("Заказать")
-
-
