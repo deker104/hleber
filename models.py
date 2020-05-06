@@ -1,13 +1,15 @@
+from flask_login import UserMixin
+
 from web import db
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     is_volunteer = db.Column(db.Boolean, nullable=True)
-    phone = db.Column(db.String, nullable=False)
+    phone = db.Column(db.String, nullable=True)
 
 
 class Order(db.Model):

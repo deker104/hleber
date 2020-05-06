@@ -3,7 +3,8 @@ from random import randint
 from vk_api import VkApi, VkUpload
 from vk_api.bot_longpoll import VkBotLongPoll
 
-from config import VK_TOKEN, VK_GROUP_ID
+from config import VK_TOKEN
+from config import VK_GROUP_ID
 
 vk = VkApi(token=VK_TOKEN)
 vk_api = vk.get_api()
