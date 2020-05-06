@@ -1,26 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Хлебер-β</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/icon.png') }}"/>
+    <script src="https://vk.com/js/api/openapi.js?168" type="text/javascript"></script>
 </head>
 <body>
-<div id="container">
-    <div id="header">
-        <a href="{{ url_for('reg') }}">Регистрация</a>
-        <a>Вход</a>
-        <ul id="menu">
-            <li><a href="{{ url_for('order') }}">Заказать</a></li>
-            <li><a href="{{ url_for('orders') }}">Принять заказ</a></li>
-            <li><a href="#">О проекте</a></li>
-        </ul>
+<script type="text/javascript">
+  VK.init({
+    apiId: 7451096
+  });
+</script>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top rounded-bottom">
+    <a href="{{ url_for('index') }}" class="navbar-brand">
+        <img src="{{ url_for('static', filename='img/icon.png') }}" alt="Хлебер-β" height=30 width=30 class="rounded-circle">
+        Хлебер-β
+    </a>
+    <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+        <div class="navbar-nav">
+            <a href="{{ url_for('index') }}" class="nav-item nav-link active">Главная</a>
+            <a href="{{ url_for('make_order') }}" class="nav-item nav-link">Сделать заказ</a>
+            <a href="{{ url_for('orders') }}" class="nav-item nav-link">Принять заказ</a>
+        </div>
+        <div class="navbar-nav ml-auto">
+            <a href="{{ url_for('reg') }}" class="nav-item nav-link active">Вход</a>
+        </div>
     </div>
+</nav>
+<br>
+<div class="container">
     {% block content %}{% endblock %}
-    <div id="footer">
-        <h1>footer</h1>
-    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

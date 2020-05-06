@@ -19,19 +19,14 @@ def index():
 
 
 @app.route('/order')
-def order():
+def make_order():
     return render_template('make_order.html')
 
 
 @app.route('/orders')
 def orders():
-    template = {}
-    # oi = ""
-    # for i in orders:
-    #     oi += f"<p>{i.order}</p><p>{i.text}</p>"
-    # template["ordinfo"] = oi
-    # TODO
-    return render_template('orders.html', **template)
+    query = Order.query.all()
+    return render_template('orders.html', query=query)
 
 
 @app.route('/register', methods=['POST', 'GET'])

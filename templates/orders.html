@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Список заказов | Хлебер-β{% endblock %}
 {% block content %}
-<div id="content">
-{# TODO #}
-</div>
+{% for order in query %}
+    <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>
+    <p><strong>Телефон:</strong> {{ order.client.phone }}</p>
+    <p>{{ order.text }}</p>
+    <button class="btn btn-primary" type="button">Принять заказ</button>
+    <hr>
+{% endfor %}
 {% endblock %}
