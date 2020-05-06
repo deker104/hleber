@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<div id="vk_auth"></div>
-<script type="text/javascript">
-    VK.Widgets.Auth('vk_auth', {"width":400, "authUrl":"/dev/Login"});
-</script>
+    <h1 class="text-center">Авторизация через ВКонтакте</h1>
+    <div id="vk_auth" class="mx-auto"></div>
+    <script type="text/javascript">
+        VK.Widgets.Auth('vk_auth', {"width":200, "authUrl":"/dev/Login"});
+    </script>
 {% endblock %}
