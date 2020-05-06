@@ -18,3 +18,5 @@ class Order(db.Model):
     volunteer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     volunteer = db.relationship('User', backref='orders_taken', foreign_keys=[volunteer_id])
     text = db.Column(db.Text, nullable=False)
+    address = db.Column(db.String, nullable=False)
+    phone = db.Column(db.String, nullable=False)

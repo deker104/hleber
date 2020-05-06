@@ -23,9 +23,14 @@ def index():
 def make_order():
     form = MakeOrder()
     print(request.method)
-    if request.method == "POST":
-        return "Успех!"
-    return render_template('make_order.html', form=form)
+    if request.method == "POST" and form.validate_on_submit():
+        f = request.form
+        order = Order(address=f['address'], phone=f['phone'], client_id=f['user_id'], text=f['text'])
+        db.session.add(order)
+        db.session.commit()
+        return request.form['address']
+    elif request.method == "GET":
+        return render_template('make_order.html', form=form)
 
 
 @app.route('/orders')
