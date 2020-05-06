@@ -1,7 +1,5 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-if __name__ == '__main__':
-    from forms import MakeOrder
 
 from config import DATABASE_URL, SECRET_KEY
 
@@ -11,7 +9,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import *
+from models import User, Order
+from forms import MakeOrder
 
 
 @app.route('/')
