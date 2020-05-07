@@ -5,9 +5,9 @@ db.drop_all()
 db.create_all()
 
 user = User(
-    id=463526827,
-    first_name='Даниил',
-    last_name='Шиндов'
+    id=422289484,
+    first_name='Макс',
+    last_name='Зарянов'
 )
 db.session.add(user)
 db.session.commit()

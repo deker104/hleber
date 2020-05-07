@@ -29,6 +29,7 @@
             <a href="{{ url_for('index') }}" class="nav-item nav-link active">Главная</a>
             <a href="{{ url_for('make_order') }}" class="nav-item nav-link">Сделать заказ</a>
             <a href="{{ url_for('orders') }}" class="nav-item nav-link">Принять заказ</a>
+            <a href="{{ url_for('myorders') }}" class="nav-item nav-link">Мои заказы</a>
         </div>
         <div class="navbar-nav ml-auto">
             {% if current_user.is_authenticated %}

@@ -6,4 +6,8 @@ from wtforms.validators import DataRequired
 class MakeOrder(FlaskForm):
     phone = StringField("Номер телефона", validators=[DataRequired()])
     address = StringField("Адрес доставки", validators=[DataRequired()])
-    text = TextAreaField("Тескт заказа", validators=[DataRequired()])
+    text = TextAreaField("Текст заказа", validators=[DataRequired()])
+
+
+class DelOrder(FlaskForm):
+    id = -1

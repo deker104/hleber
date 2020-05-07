@@ -30,9 +30,11 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'Вам необходимо войти для доступа к этой странице.'
 
-from forms import MakeOrder
-from models import User
-from models import Order
+if __name__ == '__main__':
+    from forms import MakeOrder
+    from forms import DelOrder
+    from models import User
+    from models import Order
 
 
 @login_manager.user_loader
@@ -60,7 +62,7 @@ def make_order():
         db.session.add(order)
         db.session.commit()
         flash('Успешно добавлен новый заказ.')
-        return redirect(url_for('index'))
+        return redirect(url_for('myorders'))
     form.phone.data = current_user.phone
     return render_template('make_order.html', form=form)
 
@@ -70,6 +72,25 @@ def make_order():
 def orders():
     query = Order.query.all()
     return render_template('orders.html', query=query)
+
+
+def makeform(id):
+    f = DelOrder()
+    f.id = id
+    return f
+
+
+@app.route('/myorders', methods=['POST', 'GET'])
+@login_required
+def myorders():
+    form = DelOrder()
+    if form.validate_on_submit():
+        db.session.query(Order).filter(Order.id == form.id).delete()
+        db.session.commit()
+        flash('Вы удалили запись.')
+        return redirect(url_for('myorders'))
+    query = Order.query.filter(Order.client == current_user)
+    return render_template('myorders.html', query=query, form=form)
 
 
 @app.route('/login')
@@ -102,7 +123,7 @@ def vk_auth():
 
 @app.route('/test')
 def test():
-    user = User.query.get(463526827)
+    user = User.query.get(422289484)
     login_user(user)
     flash('Вы вошли в свой аккаунт.')
     return redirect(url_for('index'))
