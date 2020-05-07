@@ -32,7 +32,6 @@ login_manager.login_message = 'Вам необходимо войти для д�
 
 if __name__ == '__main__':
     from forms import MakeOrder
-    from forms import DelOrder
     from models import User
     from models import Order
 
@@ -74,23 +73,22 @@ def orders():
     return render_template('orders.html', query=query)
 
 
-def makeform(id):
-    f = DelOrder()
-    f.id = id
-    return f
-
-
 @app.route('/myorders', methods=['POST', 'GET'])
 @login_required
 def myorders():
-    form = DelOrder()
-    if form.validate_on_submit():
-        db.session.query(Order).filter(Order.id == form.id).delete()
-        db.session.commit()
-        flash('Вы удалили запись.')
-        return redirect(url_for('myorders'))
     query = Order.query.filter(Order.client == current_user)
-    return render_template('myorders.html', query=query, form=form)
+    return render_template('myorders.html', query=query)
+
+
+@app.route('/delete/<id>')
+def delete(id):
+    db.session.query(Order).filter(Order.id == int(id)).delete()
+    db.session.commit()
+    next = request.referrer
+    if next is None or not is_safe_url(next):
+        next = url_for('index')
+    flash('Вы удалили запись.')
+    return redirect(next)
 
 
 @app.route('/login')

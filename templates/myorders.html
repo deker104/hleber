@@ -4,16 +4,7 @@
     <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>
     <p><strong>Телефон:</strong> {{ order.phone }}</p>
     <p>{{ order.text }}</p>
-    <form method="post">
-        {{ form.csrf_token }}
-        {% for field in form if field.name != 'csrf_token' %}
-            <div class="form-group">
-                {{ field.label() }}
-                {{ field(class_="form-control") }}
-            </div>
-        {% endfor %}
-        <button class="btn btn-danger" type="submit">Удалить заказ</button>
-    </form>
+    <a href = "delete/{{order.id}}"><button class="btn btn-danger" type="button">Удалить заказ</button></a>
     <hr>
 {% endfor %}
 {% endblock %}

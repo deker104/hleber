@@ -8,6 +8,3 @@ class MakeOrder(FlaskForm):
     address = StringField("Адрес доставки", validators=[DataRequired()])
     text = TextAreaField("Текст заказа", validators=[DataRequired()])
 
-
-class DelOrder(FlaskForm):
-    id = -1
