@@ -8,10 +8,9 @@ from helpers import is_safe_url
 from flask_login import current_user
 from flask_login import login_required
 
-
+from forms import MakeOrder
 from models import Order
 from web import db
-from forms import MakeOrder
 
 blueprint = Blueprint(
     'orders',
@@ -72,4 +71,3 @@ def free():
 def given():
     query = current_user.orders_given
     return render_template('orders_given.html', query=query)
-

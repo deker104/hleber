@@ -29,7 +29,6 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'Вам необходимо войти для доступа к этой странице.'
 
-
 from models import User
 from orders import blueprint as orders_bp
 
