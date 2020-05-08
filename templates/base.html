@@ -12,9 +12,9 @@
 </head>
 <body>
 <script type="text/javascript">
-  VK.init({
-    apiId: 7451096
-  });
+    VK.init({
+        apiId: 7451096
+    });
 </script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top rounded-bottom">
     <a href="{{ url_for('index') }}" class="navbar-brand">
@@ -26,10 +26,9 @@
     </button>
     <div class="collapse navbar-collapse" id="nav">
         <div class="navbar-nav">
-            <a href="{{ url_for('index') }}" class="nav-item nav-link active">Главная</a>
-            <a href="{{ url_for('make_order') }}" class="nav-item nav-link">Сделать заказ</a>
-            <a href="{{ url_for('orders') }}" class="nav-item nav-link">Принять заказ</a>
-            <a href="{{ url_for('myorders') }}" class="nav-item nav-link">Мои заказы</a>
+            <a href="{{ url_for('index') }}" class="nav-item nav-link">Главная</a>
+            <a href="{{ url_for('orders.create') }}" class="nav-item nav-link">Сделать заказ</a>
+            <a href="{{ url_for('orders.free') }}" class="nav-item nav-link">Принять заказ</a>
         </div>
         <div class="navbar-nav ml-auto">
             {% if current_user.is_authenticated %}
@@ -38,6 +37,8 @@
                         {{ current_user.first_name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownToggle">
+                        <a href="{{ url_for('orders.given') }}" class="dropdown-item">Мои заказы</a>
+                        <div class="dropdown-divider"></div>
                         <a href="{{ url_for('logout') }}" class="dropdown-item">Выход</a>
                     </div>
                 </div>

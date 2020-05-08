@@ -1,6 +1,6 @@
-from urllib.parse import urlparse
-from urllib.parse import urljoin
 from re import compile
+from urllib.parse import urljoin
+from urllib.parse import urlparse
 
 from flask import request
 

@@ -1,17 +1,16 @@
 from hashlib import md5
 
 from flask import Flask
+from flask import flash
+from flask import redirect
 from flask import render_template
 from flask import request
 from flask import session
-from flask import redirect
 from flask import url_for
-from flask import flash
 from flask_login import LoginManager
-from flask_login import login_required
+from flask_login import current_user
 from flask_login import login_user
 from flask_login import logout_user
-from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 
 from config import DATABASE_URL
@@ -30,10 +29,11 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'Вам необходимо войти для доступа к этой странице.'
 
-if __name__ == '__main__':
-    from forms import MakeOrder
-    from models import User
-    from models import Order
+from models import User
+from orders import blueprint as orders_bp
+
+
+app.register_blueprint(orders_bp)
 
 
 @login_manager.user_loader
@@ -45,50 +45,6 @@ def load_user(user_id):
 @app.route('/index')
 def index():
     return render_template('index.html')
-
-
-@app.route('/order', methods=['POST', 'GET'])
-@login_required
-def make_order():
-    form = MakeOrder()
-    if form.validate_on_submit():
-        order = Order(
-            address=form.address.data,
-            phone=form.phone.data,
-            client_id=current_user.id,
-            text=form.text.data
-        )
-        db.session.add(order)
-        db.session.commit()
-        flash('Успешно добавлен новый заказ.')
-        return redirect(url_for('myorders'))
-    form.phone.data = current_user.phone
-    return render_template('make_order.html', form=form)
-
-
-@app.route('/orders')
-@login_required
-def orders():
-    query = Order.query.all()
-    return render_template('orders.html', query=query)
-
-
-@app.route('/myorders', methods=['POST', 'GET'])
-@login_required
-def myorders():
-    query = Order.query.filter(Order.client == current_user)
-    return render_template('myorders.html', query=query)
-
-
-@app.route('/delete/<id>')
-def delete(id):
-    db.session.query(Order).filter(Order.id == int(id)).delete()
-    db.session.commit()
-    next = request.referrer
-    if next is None or not is_safe_url(next):
-        next = url_for('index')
-    flash('Вы удалили запись.')
-    return redirect(next)
 
 
 @app.route('/login')
@@ -119,11 +75,15 @@ def vk_auth():
         return redirect(next)
 
 
-@app.route('/test')
-def test():
-    user = User.query.get(422289484)
-    login_user(user)
-    flash('Вы вошли в свой аккаунт.')
+@app.route('/test/<int:id>')
+def test(id):
+    if not current_user.is_authenticated:
+        user = User.query.get(id)
+        if user is not None:
+            login_user(user)
+            flash('Вы вошли в свой аккаунт.')
+        else:
+            flash('Не удалось войти!')
     return redirect(url_for('index'))
 
 
