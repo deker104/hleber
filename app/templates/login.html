@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1 class="text-center">Авторизация через ВКонтакте</h1>
+    <hr>
     <div id="vk_auth" class="mx-auto"></div>
     <script type="text/javascript">
-        VK.Widgets.Auth('vk_auth', {"width":300, "authUrl":"{{ url_for('auth') }}"});
+        VK.Widgets.Auth('vk_auth', {"width":300, "authUrl":"{{ url_for('auth.auth') }}"});
     </script>
 {% endblock %}

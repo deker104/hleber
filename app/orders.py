@@ -2,15 +2,15 @@ from flask import Blueprint
 from flask import flash
 from flask import redirect
 from flask import render_template
-from flask import url_for
 from flask import request
-from helpers import is_safe_url
+from flask import url_for
 from flask_login import current_user
 from flask_login import login_required
 
-from forms import MakeOrder
-from models import Order
-from web import db
+from app import db
+from app.forms import MakeOrder
+from app.helpers import is_safe_url
+from app.models import Order
 
 blueprint = Blueprint(
     'orders',
@@ -86,7 +86,6 @@ def take(id):
     else:
         flash('Вы не можете взять больше 3 заказов.')
         return redirect('/orders/free')
-
 
 
 @blueprint.route('/orders/doing')

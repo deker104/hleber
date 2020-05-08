@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1 class="text-center">Оформление заказа</h1>
+    <hr>
     <form method="post">
         {{ form.csrf_token }}
         {% for field in form if field.name != 'csrf_token' %}

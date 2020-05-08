@@ -1,3 +1,3 @@
-release: FLASK_APP=web.py flask db upgrade
-web: gunicorn web:app
+release: flask db upgrade
+web: gunicorn wsgi:app
 worker: python vk.py

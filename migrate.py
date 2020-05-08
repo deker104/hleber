@@ -1,5 +1,5 @@
-from web import User
-from web import db
+from app import db
+from app.models import User
 
 user = User(
     id=422289484,

@@ -17,7 +17,7 @@
     });
 </script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top rounded-bottom">
-    <a href="{{ url_for('index') }}" class="navbar-brand">
+    <a href="{{ url_for('main.index') }}" class="navbar-brand">
         <img src="{{ url_for('static', filename='img/icon.png') }}" alt="Хлебер-β" height=30 width=30 class="rounded-circle">
         Хлебер-β
     </a>
@@ -26,7 +26,7 @@
     </button>
     <div class="collapse navbar-collapse" id="nav">
         <div class="navbar-nav">
-            <a href="{{ url_for('index') }}" class="nav-item nav-link">Главная</a>
+            <a href="{{ url_for('main.index') }}" class="nav-item nav-link">Главная</a>
             <a href="{{ url_for('orders.create') }}" class="nav-item nav-link">Сделать заказ</a>
             <a href="{{ url_for('orders.free') }}" class="nav-item nav-link">Принять заказ</a>
         </div>
@@ -40,11 +40,11 @@
                         <a href="{{ url_for('orders.given') }}" class="dropdown-item">Мои заказы</a>
                         <a href="{{ url_for('orders.doing') }}" class="dropdown-item">Взятые заказы</a>
                         <div class="dropdown-divider"></div>
-                        <a href="{{ url_for('logout') }}" class="dropdown-item">Выход</a>
+                        <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Выход</a>
                     </div>
                 </div>
             {% else %}
-                <a href="{{ url_for('login') }}" class="nav-item nav-link active">Вход</a>
+                <a href="{{ url_for('auth.login') }}" class="nav-item nav-link active">Вход</a>
             {% endif %}
         </div>
     </div>
