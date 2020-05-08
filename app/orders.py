@@ -62,7 +62,7 @@ def free():
     query = Order.query.filter(
         Order.volunteer_id == None,
         Order.client != current_user
-    )
+    ).all()
     return render_template('orders_free.html', query=query)
 
 
@@ -81,7 +81,7 @@ def take(id):
         query.volunteer = current_user
         db.session.add(query)
         db.session.commit()
-        flash('Вы приняли запрос.')
+        flash('Вы приняли заказ.')
         return redirect('/orders/doing')
     else:
         flash('Вы не можете взять больше 3 заказов.')
@@ -91,6 +91,6 @@ def take(id):
 @blueprint.route('/orders/doing')
 @login_required
 def doing():
-    query = Order.query.filter(Order.volunteer == current_user)
+    query = Order.query.filter(Order.volunteer == current_user).all()
     return render_template('orders_doing.html', query=query)
 

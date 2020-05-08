@@ -9,4 +9,7 @@
         <button class="btn btn-primary">Test</button>
         <hr>
     {% endfor %}
+    {% if not query %}
+        <p class="text-muted text-center">Здесь ничего нет.</p>
+    {% endif %}
 {% endblock %}

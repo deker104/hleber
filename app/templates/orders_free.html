@@ -9,4 +9,7 @@
         <a class="btn btn-primary" href="{{ url_for('orders.take', id=order.id) }}">Принять заказ</a>
         <hr>
     {% endfor %}
+    {% if not query %}
+        <p class="text-muted text-center">Здесь ничего нет.</p>
+    {% endif %}
 {% endblock %}
