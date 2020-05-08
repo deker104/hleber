@@ -3,12 +3,15 @@ from flask import flash
 from flask import redirect
 from flask import render_template
 from flask import url_for
+from flask import request
+from helpers import is_safe_url
 from flask_login import current_user
 from flask_login import login_required
 
-from forms import MakeOrder
+
 from models import Order
 from web import db
+from forms import MakeOrder
 
 blueprint = Blueprint(
     'orders',
@@ -45,7 +48,13 @@ def change(id):
 @blueprint.route('/orders/<int:id>/delete')
 @login_required
 def delete(id):
-    return '<h1>Успех!</h1>'
+    db.session.query(Order).filter(Order.id == int(id)).delete()
+    db.session.commit()
+    next = request.referrer
+    if next is None or not is_safe_url(next):
+        next = url_for('index')
+    flash('Вы удалили запись.')
+    return redirect(next)
 
 
 @blueprint.route('/orders/free')
