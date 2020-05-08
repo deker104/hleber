@@ -47,7 +47,7 @@ def change(id):
 @blueprint.route('/orders/<int:id>/delete')
 @login_required
 def delete(id):
-    db.session.query(Order).filter(Order.id == int(id)).delete()
+    db.session.query(Order).filter(Order.id == id).delete()
     db.session.commit()
     next = request.referrer
     if next is None or not is_safe_url(next):
@@ -71,3 +71,22 @@ def free():
 def given():
     query = current_user.orders_given
     return render_template('orders_given.html', query=query)
+
+
+@blueprint.route('/orders/<int:id>/take')
+@login_required
+def take(id):
+    query = Order.query.get(id)
+    query.volunteer = current_user
+    db.session.add(query)
+    db.session.commit()
+    flash('Вы приняли запрос.')
+    return redirect('/orders/doing')
+
+
+@blueprint.route('/orders/doing')
+@login_required
+def doing():
+    query = Order.query.filter(Order.volunteer == current_user)
+    return render_template('orders_doing.html', query=query)
+
