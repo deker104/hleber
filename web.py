@@ -52,8 +52,8 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/vk_auth')
-def vk_auth():
+@app.route('/auth')
+def auth():
     hash_args = request.args.get('hash')
     user_id = request.args.get('uid')
     hash_computed = md5(f'{VK_APP_ID}{user_id}{VK_SECRET_KEY}'.encode()).hexdigest()
@@ -72,6 +72,7 @@ def vk_auth():
         if next is None or not is_safe_url(next):
             next = url_for('index')
         flash('Вы вошли в свой аккаунт.')
+        session['next'] = ''
         return redirect(next)
 
 
