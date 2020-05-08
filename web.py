@@ -11,6 +11,7 @@ from flask_login import LoginManager
 from flask_login import current_user
 from flask_login import login_user
 from flask_login import logout_user
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from config import DATABASE_URL
@@ -25,6 +26,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['USE_SESSION_FOR_NEXT'] = True
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'Вам необходимо войти для доступа к этой странице.'
