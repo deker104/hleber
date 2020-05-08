@@ -77,11 +77,16 @@ def given():
 @login_required
 def take(id):
     query = Order.query.get(id)
-    query.volunteer = current_user
-    db.session.add(query)
-    db.session.commit()
-    flash('Вы приняли запрос.')
-    return redirect('/orders/doing')
+    if Order.query.filter(Order.volunteer == current_user, not Order.done).count() < 3:
+        query.volunteer = current_user
+        db.session.add(query)
+        db.session.commit()
+        flash('Вы приняли запрос.')
+        return redirect('/orders/doing')
+    else:
+        flash('Вы не можете взять больше 3 заказов.')
+        return redirect('/orders/free')
+
 
 
 @blueprint.route('/orders/doing')

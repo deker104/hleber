@@ -1,9 +1,6 @@
 from web import User
 from web import db
 
-db.drop_all()
-db.create_all()
-
 user = User(
     id=422289484,
     first_name='Макс',
