@@ -51,7 +51,7 @@ def delete(id):
     db.session.commit()
     next = request.referrer
     if next is None or not is_safe_url(next):
-        next = url_for('index')
+        next = url_for('main.index')
     flash('Вы удалили запись.')
     return redirect(next)
 
@@ -69,7 +69,7 @@ def free():
 @blueprint.route('/orders/given')
 @login_required
 def given():
-    query = current_user.orders_given
+    query = Order.query.filter(Order.client == current_user, not Order.done).all()
     return render_template('orders_given.html', query=query)
 
 
@@ -82,15 +82,15 @@ def take(id):
         db.session.add(query)
         db.session.commit()
         flash('Вы приняли заказ.')
-        return redirect('/orders/doing')
+        return redirect(url_for('.taken'))
     else:
         flash('Вы не можете взять больше 3 заказов.')
-        return redirect('/orders/free')
+        return redirect(url_for('.free'))
 
 
-@blueprint.route('/orders/doing')
+@blueprint.route('/orders/taken')
 @login_required
-def doing():
-    query = Order.query.filter(Order.volunteer == current_user).all()
-    return render_template('orders_doing.html', query=query)
+def taken():
+    query = Order.query.filter(Order.volunteer == current_user, not Order.done).all()
+    return render_template('orders_taken.html', query=query)
 
