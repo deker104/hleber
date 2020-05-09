@@ -31,3 +31,5 @@ class Order(db.Model):
     address = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
     done = db.Column(db.Boolean, default=False)
+    client_confirm = db.Column(db.Boolean, default=False)
+    volunteer_confirm = db.Column(db.Boolean, default=False)

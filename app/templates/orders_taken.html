@@ -7,7 +7,7 @@
         <p><strong>Телефон:</strong> {{ order.phone }}</p>
         <p>{{ order.text }}</p>
         <p class="text-muted">Последнее обновление: {{ order.last_updated }}</p>
-        <button class="btn btn-primary">Test</button>
+        <a class="btn btn-primary" href="{{ url_for('orders.about', id=order.id) }}">Подробнее</a>
         <hr>
     {% endfor %}
     {% if not query %}

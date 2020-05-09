@@ -104,3 +104,19 @@ def taken():
     ).all()
     return render_template('orders_taken.html', query=query)
 
+
+@blueprint.route('/orders/<int:id>/about')
+@login_required
+def about(id):
+    order = Order.query.filter(Order.id == id).first()
+    return render_template('orders_about.html', order=order)
+
+
+@blueprint.route('/orders/<int:id>/confirm')
+@login_required
+def confirm(id):
+    order = Order.query.get(id)
+    order.volunteer_confirm = True
+    db.session.add(order)
+    db.session.commit()
+    return redirect(url_for('orders.taken'))
