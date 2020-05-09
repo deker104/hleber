@@ -26,7 +26,7 @@ blueprint = Blueprint('auth', __name__, template_folder='templates')
 @blueprint.route('/login')
 def login():
     """Страница входа через ВКонтакте"""
-    return render_template('login.html')
+    return render_template('auth_login.html')
 
 
 @blueprint.route('/settings', methods=['GET', 'POST'])
@@ -40,7 +40,7 @@ def settings():
         db.session.commit()
         flash('Настройки успешно изменены.')
         return redirect(url_for('.settings'))
-    return render_template('users_settings.html', form=form)
+    return render_template('auth_settings.html', form=form)
 
 
 @blueprint.route('/auth')
