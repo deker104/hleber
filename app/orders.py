@@ -112,11 +112,26 @@ def about(id):
     return render_template('orders_about.html', order=order)
 
 
-@blueprint.route('/orders/<int:id>/confirm')
+@blueprint.route('/orders/<int:id>/volunteer_confirm')
 @login_required
-def confirm(id):
+def volunteer_confirm(id):
     order = Order.query.get(id)
     order.volunteer_confirm = True
+    if order.client_confirm:
+        order.done = True
     db.session.add(order)
     db.session.commit()
     return redirect(url_for('orders.taken'))
+
+
+@blueprint.route('/orders/<int:id>/client_confirm')
+@login_required
+def client_confirm(id):
+    order = Order.query.get(id)
+    order.client_confirm = True
+    if order.volunteer_confirm:
+        order.done = True
+    db.session.add(order)
+    db.session.commit()
+    return redirect(url_for('orders.given'))
+

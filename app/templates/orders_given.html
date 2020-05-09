@@ -7,7 +7,15 @@
         <p><strong>Телефон:</strong> {{ order.phone }}</p>
         <p>{{ order.text }}</p>
         <p class="text-muted">Последнее обновление: {{ order.last_updated }}</p>
+        {% if order.volunteer_id %}
+        <p><strong>Волонтер:</strong> {{ order.volunteer.first_name }} {{ order.volunteer.last_name }}</p>
+        <p><strong>Телефон волонтера:</strong> {{ order.volunteer.first_name }} {{ order.volunteer.last_name }}</p>
+        {% endif %}
+        {% if order.volunteer_confirm %}
+        <p>Завершено волонтером</p>
+        {% endif %}
         <a class="btn btn-primary" href="{{ url_for('orders.delete', id=order.id) }}">Удалить</a>
+        <a class="btn btn-primary" href="{{ url_for('orders.client_confirm', id=order.id) }}">Завершить</a>
         <hr>
     {% endfor %}
     {% if not query %}

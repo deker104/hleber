@@ -6,5 +6,5 @@
         <p><strong>Телефон:</strong> {{ order.phone }}</p>
         <p><strong>Адрес:</strong> {{ order.address }}</p>
         <p>{{ order.text }}</p>
-        <a class="btn btn-primary" href="{{ url_for('orders.confirm', id=order.id) }}">Закончить заказ</a>
+        <a class="btn btn-primary" href="{{ url_for('orders.volunteer_confirm', id=order.id) }}">Закончить заказ</a>
 {% endblock %}
