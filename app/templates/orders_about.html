@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="text-center">Информация о заказе</h1>
+    <hr>
+        <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>
+        <p><strong>Телефон:</strong> {{ order.phone }}</p>
+        <p><strong>Адрес:</strong> {{ order.address }}</p>
+        <p>{{ order.text }}</p>
+        <a class="btn btn-primary" href="{{ url_for('orders.confirm', id=order.id) }}">Закончить заказ</a>
+{% endblock %}

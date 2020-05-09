@@ -69,7 +69,7 @@ def free():
 @blueprint.route('/orders/given')
 @login_required
 def given():
-    query = Order.query.filter(Order.client == current_user, not Order.done).all()
+    query = Order.query.filter(Order.client == current_user and not Order.done).all()
     return render_template('orders_given.html', query=query)
 
 
@@ -77,7 +77,7 @@ def given():
 @login_required
 def take(id):
     query = Order.query.get(id)
-    if Order.query.filter(Order.volunteer == current_user, not Order.done).count() < 3:
+    if Order.query.filter(Order.volunteer == current_user and not Order.done).count() < 3:
         query.volunteer = current_user
         db.session.add(query)
         db.session.commit()
@@ -91,6 +91,22 @@ def take(id):
 @blueprint.route('/orders/taken')
 @login_required
 def taken():
-    query = Order.query.filter(Order.volunteer == current_user, not Order.done).all()
+    query = Order.query.filter(Order.volunteer == current_user and not Order.done).all()
     return render_template('orders_taken.html', query=query)
 
+
+@blueprint.route('/orders/<int:id>/about')
+@login_required
+def about(id):
+    order = Order.query.filter(Order.id == id).first()
+    return render_template('orders_about.html', order=order)
+
+
+@blueprint.route('/orders/<int:id>/confirm')
+@login_required
+def confirm(id):
+    order = Order.query.get(id)
+    order.volunteer_confirm = True
+    db.session.add(order)
+    db.session.commit()
+    return redirect(url_for('orders.taken'))
