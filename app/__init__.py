@@ -5,6 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 
+__doc__ = """Модуль веб-сайта.
+Все Flask-дополнения и фабрика приложений. 
+"""
+
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
@@ -12,9 +16,10 @@ login_manager.login_view = 'auth.login'
 login_manager.login_message = 'Вам необходимо войти для доступа к этой странице.'
 
 
-def create_app():
+def create_app(config=Config):
+    """Фабрика приложений - удобный способ создания новых экземпляров приложения"""
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config)
 
     db.init_app(app)
     migrate.init_app(app, db)

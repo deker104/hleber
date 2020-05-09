@@ -2,7 +2,7 @@
 {% block content %}
     <h1 class="text-center">Отправленные заказы</h1>
     <hr>
-    {% for order in query %}
+    {% for order in orders %}
         <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>
         <p><strong>Телефон:</strong> {{ order.phone }}</p>
         <p>{{ order.text }}</p>
@@ -18,7 +18,7 @@
         <a class="btn btn-primary" href="{{ url_for('orders.client_confirm', id=order.id) }}">Завершить</a>
         <hr>
     {% endfor %}
-    {% if not query %}
+    {% if not orders %}
         <p class="text-muted text-center">Здесь ничего нет.</p>
     {% endif %}
 {% endblock %}

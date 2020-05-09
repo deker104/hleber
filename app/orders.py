@@ -8,9 +8,11 @@ from flask_login import current_user
 from flask_login import login_required
 
 from app import db
-from app.forms import MakeOrder
+from app.forms import OrderCreate
 from app.helpers import is_safe_url
 from app.models import Order
+
+__doc__ = """Модуль веб-страниц для создания, редактирования и отображения заказов"""
 
 blueprint = Blueprint(
     'orders',
@@ -22,7 +24,8 @@ blueprint = Blueprint(
 @blueprint.route('/orders/create', methods=['POST', 'GET'])
 @login_required
 def create():
-    form = MakeOrder()
+    """Создание заказа"""
+    form = OrderCreate()
     if form.validate_on_submit():
         order = Order(
             address=form.address.data,
@@ -41,12 +44,14 @@ def create():
 @blueprint.route('/orders/<int:id>/change', methods=['GET', 'POST'])
 @login_required
 def change(id):
+    """Изменение заказа"""
     pass
 
 
 @blueprint.route('/orders/<int:id>/delete')
 @login_required
 def delete(id):
+    """Удаление заказа"""
     db.session.query(Order).filter(Order.id == id).delete()
     db.session.commit()
     next = request.referrer
@@ -59,55 +64,62 @@ def delete(id):
 @blueprint.route('/orders/free')
 @login_required
 def free():
-    query = Order.query.filter(
+    """Отображение свободных заказов"""
+    orders = Order.query.filter(
         Order.volunteer_id == None,
         Order.client != current_user
     ).all()
-    return render_template('orders_free.html', query=query)
+    return render_template('orders_free.html', orders=orders)
 
 
 @blueprint.route('/orders/given')
 @login_required
 def given():
-    query = Order.query.filter(
+    """Отображение заказов, отданных пользователем"""
+    orders = Order.query.filter(
         Order.client == current_user,
         Order.done == False
     ).all()
-    return render_template('orders_given.html', query=query)
+    return render_template('orders_given.html', orders=orders)
 
 
 @blueprint.route('/orders/<int:id>/take')
 @login_required
 def take(id):
-    query = Order.query.get(id)
+    """Взятие заказа"""
+    order = Order.query.get(id)
+    if order.client == current_user:
+        flash('Вы не можете взять собственный заказ.')
+        return redirect(url_for('.free'))
     count = Order.query.filter(
         Order.volunteer == current_user,
         Order.done == False
     ).count()
-    if count < 3:
-        query.volunteer = current_user
-        db.session.add(query)
-        db.session.commit()
-        flash('Вы приняли заказ.')
-        return redirect(url_for('.taken'))
-    else:
+    if count > 3:
         flash('Вы не можете взять больше 3 заказов.')
         return redirect(url_for('.free'))
+    order.volunteer = current_user
+    db.session.add(order)
+    db.session.commit()
+    flash('Вы приняли заказ.')
+    return redirect(url_for('.taken'))
 
 
 @blueprint.route('/orders/taken')
 @login_required
 def taken():
-    query = Order.query.filter(
+    """Отображение взятых заказов"""
+    orders = Order.query.filter(
         Order.volunteer == current_user,
         Order.done == False
     ).all()
-    return render_template('orders_taken.html', query=query)
+    return render_template('orders_taken.html', orders=orders)
 
 
 @blueprint.route('/orders/<int:id>/about')
 @login_required
 def about(id):
+    """Отображение подробной информации о заказе"""
     order = Order.query.filter(Order.id == id).first()
     return render_template('orders_about.html', order=order)
 
@@ -115,6 +127,7 @@ def about(id):
 @blueprint.route('/orders/<int:id>/volunteer_confirm')
 @login_required
 def volunteer_confirm(id):
+    """Подтверждение заказа от волонтёра"""
     order = Order.query.get(id)
     order.volunteer_confirm = True
     if order.client_confirm:
@@ -127,6 +140,7 @@ def volunteer_confirm(id):
 @blueprint.route('/orders/<int:id>/client_confirm')
 @login_required
 def client_confirm(id):
+    """Подтверждение заказа от клиента"""
     order = Order.query.get(id)
     order.client_confirm = True
     if order.volunteer_confirm:

@@ -2,6 +2,8 @@ from app import create_app
 from app import db
 from app.models import User
 
+__doc__ = """Скрипт, загружающий в БД тестовые данные"""
+
 app = create_app()
 
 with app.app_context():
