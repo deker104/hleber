@@ -10,6 +10,8 @@ VALID_SCHEMES = ['http', 'https']
 _substitute_whitespace = compile(r'[\s\x00-\x08\x0B\x0C\x0E-\x19]+').sub
 _fix_multiple_slashes = compile(r'(^([^/]+:)?//)/*').sub
 
+check_phone = compile(r'^\+?[\d\s()-]*$')
+
 
 def is_safe_url(target):
     """Функция, проверяющая URL в target на безопасность.

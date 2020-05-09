@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=True)
+    address = db.Column(db.String, nullable=True)
 
 
 @login_manager.user_loader
@@ -31,7 +32,11 @@ class Order(db.Model):
     client = db.relationship('User', backref='orders_given', foreign_keys=[client_id])
     volunteer_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     volunteer = db.relationship('User', backref='orders_taken', foreign_keys=[volunteer_id])
-    last_updated = db.Column(db.DateTime, onupdate=datetime.datetime.now)
+    last_updated = db.Column(
+        db.DateTime,
+        default=datetime.datetime.now,
+        onupdate=datetime.datetime.now
+    )
     text = db.Column(db.Text, nullable=False)
     address = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)

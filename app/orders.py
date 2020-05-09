@@ -8,8 +8,8 @@ from flask_login import current_user
 from flask_login import login_required
 
 from app import db
-from app.forms import OrderCreate
-from app.helpers import is_safe_url
+from app.forms import OrderCreateForm
+from helpers import is_safe_url
 from app.models import Order
 
 __doc__ = """Модуль веб-страниц для создания, редактирования и отображения заказов"""
@@ -25,7 +25,7 @@ blueprint = Blueprint(
 @login_required
 def create():
     """Создание заказа"""
-    form = OrderCreate()
+    form = OrderCreateForm(obj=current_user)
     if form.validate_on_submit():
         order = Order(
             address=form.address.data,
@@ -37,7 +37,6 @@ def create():
         db.session.commit()
         flash('Успешно добавлен/изменён заказ.')
         return redirect(url_for('.given'))
-    form.phone.data = current_user.phone
     return render_template('orders_create.html', form=form)
 
 

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="text-center">Изменение настроек</h1>
+    <hr>
+    <form method="post">
+        {{ form.csrf_token }}
+        {% for field in form if field.name != 'csrf_token' %}
+            {% for error in field.errors %}
+                <div class="alert alert-primary" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                {{ field.label() }}
+                {{ field(class_="form-control") }}
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+    </form>
+{% endblock %}

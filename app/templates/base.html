@@ -37,6 +37,7 @@
                         {{ current_user.first_name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownToggle">
+                        <a href="{{ url_for('auth.settings') }}" class="dropdown-item">Настройки</a>
                         <a href="{{ url_for('orders.given') }}" class="dropdown-item">Мои заказы</a>
                         <a href="{{ url_for('orders.taken') }}" class="dropdown-item">Принятые заказы</a>
                         <div class="dropdown-divider"></div>
