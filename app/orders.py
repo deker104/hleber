@@ -69,7 +69,10 @@ def free():
 @blueprint.route('/orders/given')
 @login_required
 def given():
-    query = Order.query.filter(Order.client == current_user, not Order.done).all()
+    query = Order.query.filter(
+        Order.client == current_user,
+        Order.done == False
+    ).all()
     return render_template('orders_given.html', query=query)
 
 
@@ -77,7 +80,11 @@ def given():
 @login_required
 def take(id):
     query = Order.query.get(id)
-    if Order.query.filter(Order.volunteer == current_user, not Order.done).count() < 3:
+    count = Order.query.filter(
+        Order.volunteer == current_user,
+        Order.done == False
+    ).count()
+    if count < 3:
         query.volunteer = current_user
         db.session.add(query)
         db.session.commit()
@@ -91,6 +98,9 @@ def take(id):
 @blueprint.route('/orders/taken')
 @login_required
 def taken():
-    query = Order.query.filter(Order.volunteer == current_user, not Order.done).all()
+    query = Order.query.filter(
+        Order.volunteer == current_user,
+        Order.done == False
+    ).all()
     return render_template('orders_taken.html', query=query)
 
