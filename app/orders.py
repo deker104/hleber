@@ -11,6 +11,7 @@ from app import db
 from app.forms import OrderCreateForm
 from helpers import is_safe_url
 from app.models import Order
+import requests
 
 __doc__ = """Модуль веб-страниц для создания, редактирования и отображения заказов"""
 
@@ -122,7 +123,22 @@ def taken(done):
 def about(id):
     """Отображение подробной информации о заказе"""
     order = Order.query.filter(Order.id == id).first()
-    return render_template('orders_about.html', order=order)
+    geo_request = "http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&" +\
+                  f"geocode={'Новосибирск, ' + order.address}&format=json"
+    response = requests.get(geo_request)
+    map_file = None
+    if response:
+        json_response = response.json()
+        toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+        toponym_coodrinates = toponym["Point"]["pos"]
+        cs = toponym_coodrinates.split()
+        map_request = f"http://static-maps.yandex.ru/1.x/?ll={cs[0]},{cs[1]}&spn=0.002,0.002&l=map"
+        response = requests.get(map_request)
+        map_file = "app/static/img/map.png"
+        with open(map_file, "wb") as file:
+            file.write(response.content)
+        map_file = "/".join(map_file.split("/")[-3:])
+    return render_template('orders_about.html', order=order, map_file=map_file)
 
 
 @blueprint.route('/orders/<int:id>/volunteer_confirm')

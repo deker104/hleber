@@ -5,6 +5,7 @@
         <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>
         <p><strong>Телефон:</strong> {{ order.phone }}</p>
         <p><strong>Адрес:</strong> {{ order.address }}</p>
+        <img src = '{{ map_file }}' alt="Адрес указан некорректно">
         <p>{{ order.text }}</p>
         <a class="btn btn-primary" href="{{ url_for('orders.volunteer_confirm', id=order.id) }}">Закончить заказ</a>
 {% endblock %}

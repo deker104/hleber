@@ -19,7 +19,7 @@
         <p class="text-muted">Последнее обновление: {{ order.last_updated }}</p>
         {% if order.volunteer_id %}
         <p><strong>Волонтер:</strong> {{ order.volunteer.first_name }} {{ order.volunteer.last_name }}</p>
-        <p><strong>Телефон волонтера:</strong> {{ order.volunteer.first_name }} {{ order.volunteer.last_name }}</p>
+        <p><strong>Телефон волонтера:</strong> {{ order.volunteer.phone }}</p>
         {% endif %}
         {% if order.volunteer_confirm %}
         <p>Завершено волонтером</p>
