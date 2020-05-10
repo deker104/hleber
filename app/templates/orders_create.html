@@ -13,6 +13,9 @@
             <div class="form-group">
                 {{ field.label() }}
                 {{ field(class_="form-control") }}
+                {% if field.name == 'address' %}
+                    <small class="form-text text-muted">Город указывать не нужно.</small>
+                {% endif %}
             </div>
         {% endfor %}
         <button class="btn btn-primary" type="submit">Отправить заявку</button>

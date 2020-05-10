@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="text-center">Отправленные заказы</h1>
+    {% if not done %}
+        <h1 class="text-center">Отправленные заказы</h1>
+        <a href="{{ url_for('orders.given', done=True) }}">
+            <p class="text-center">Показать историю заказов</p>
+        </a>
+    {% else %}
+        <h1 class="text-center">История отправленных заказов</h1>
+        <a href="{{ url_for('orders.given', done=False) }}">
+            <p class="text-center">Показать новые заказы</p>
+        </a>
+    {% endif %}
     <hr>
     {% for order in orders %}
         <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>

@@ -71,15 +71,16 @@ def free():
     return render_template('orders_free.html', orders=orders)
 
 
-@blueprint.route('/orders/given')
+@blueprint.route('/orders/given/done', defaults={'done': True})
+@blueprint.route('/orders/given', defaults={'done': False})
 @login_required
-def given():
+def given(done):
     """Отображение заказов, отданных пользователем"""
     orders = Order.query.filter(
         Order.client == current_user,
-        Order.done == False
+        Order.done == done
     ).all()
-    return render_template('orders_given.html', orders=orders)
+    return render_template('orders_given.html', orders=orders, done=done)
 
 
 @blueprint.route('/orders/<int:id>/take')
