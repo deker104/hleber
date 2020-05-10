@@ -1,3 +1,4 @@
+import requests
 from flask import Blueprint
 from flask import flash
 from flask import redirect
@@ -9,9 +10,8 @@ from flask_login import login_required
 
 from app import db
 from app.forms import OrderCreateForm
-from helpers import is_safe_url
 from app.models import Order
-import requests
+from helpers import is_safe_url
 
 __doc__ = """Модуль веб-страниц для создания, редактирования и отображения заказов"""
 

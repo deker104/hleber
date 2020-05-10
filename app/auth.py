@@ -9,14 +9,14 @@ from flask import request
 from flask import session
 from flask import url_for
 from flask_login import current_user
-from flask_login import login_user
 from flask_login import login_required
+from flask_login import login_user
 from flask_login import logout_user
 
 from app import db
 from app.forms import SettingsForm
-from helpers import is_safe_url
 from app.models import User
+from helpers import is_safe_url
 
 __doc__ = """Все веб-страницы и функции, связанные с авторизацией пользователей"""
 

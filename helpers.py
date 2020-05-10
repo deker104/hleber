@@ -1,4 +1,5 @@
 from re import compile
+from urllib.parse import urlencode
 from urllib.parse import urljoin
 from urllib.parse import urlparse
 
@@ -37,3 +38,8 @@ def is_safe_url(target):
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
     return ref_url.netloc == test_url.netloc
+
+
+def build_url(url_base, **params):
+    """Функция для удобного построения URL"""
+    return url_base + urlencode(params)
