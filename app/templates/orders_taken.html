@@ -18,6 +18,12 @@
         <p><strong>Адрес:</strong> {{ order.address }}</p>
         <p>{{ order.text }}</p>
         <p class="text-muted">Последнее обновление: {{ order.last_updated }}</p>
+        {% if order.volunteer_confirm %}
+        <p>Завершено</p>
+        {% endif %}
+        {% if order.client_confirm %}
+        <p>Подтверждено</p>
+        {% endif %}
         <a class="btn btn-primary" href="{{ url_for('orders.about', id=order.id) }}">Подробнее</a>
         <hr>
     {% endfor %}

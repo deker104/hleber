@@ -126,19 +126,33 @@ def about(id):
     geo_request = "http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&" +\
                   f"geocode={'Новосибирск, ' + order.address}&format=json"
     response = requests.get(geo_request)
-    map_file = None
+    map_request = None
     if response:
         json_response = response.json()
         toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
         toponym_coodrinates = toponym["Point"]["pos"]
         cs = toponym_coodrinates.split()
-        map_request = f"http://static-maps.yandex.ru/1.x/?ll={cs[0]},{cs[1]}&spn=0.002,0.002&l=map"
-        response = requests.get(map_request)
-        map_file = "app/static/img/map.png"
-        with open(map_file, "wb") as file:
-            file.write(response.content)
-        map_file = "/".join(map_file.split("/")[-3:])
-    return render_template('orders_about.html', order=order, map_file=map_file)
+        search_api_server = "https://search-maps.yandex.ru/v1/"
+        api_key = "dda3ddba-c9ea-4ead-9010-f43fbc15c6e3"
+
+        address_ll = f"{cs[0]},{cs[1]}"
+
+        search_params = {
+            "apikey": api_key,
+            "text": "супермаркет",
+            "lang": "ru_RU",
+            "ll": address_ll,
+            "type": "biz"
+        }
+
+        response = requests.get(search_api_server, params=search_params)
+        json_response = response.json()
+        organization = json_response["features"][0]
+        point = organization["geometry"]["coordinates"]
+        org_point = "{0},{1}".format(point[0], point[1])
+        print(org_point)
+        map_request = f"""http://static-maps.yandex.ru/1.x/?pt={cs[0]},{cs[1]},pm2rdm~{org_point},pm2lbm&l=map"""
+    return render_template('orders_about.html', order=order, map_file=map_request)
 
 
 @blueprint.route('/orders/<int:id>/volunteer_confirm')

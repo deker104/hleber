@@ -24,8 +24,13 @@
         {% if order.volunteer_confirm %}
         <p>Завершено волонтером</p>
         {% endif %}
+        {% if order.client_confirm %}
+        <p>Подтверждено</p>
+        {% if order.client_confirm %}
         <a class="btn btn-primary" href="{{ url_for('orders.delete', id=order.id) }}">Удалить</a>
+        {% if not order.done %}
         <a class="btn btn-primary" href="{{ url_for('orders.client_confirm', id=order.id) }}">Завершить</a>
+        {% endif %}
         <hr>
     {% endfor %}
     {% if not orders %}
