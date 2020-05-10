@@ -32,6 +32,7 @@ def login():
 @blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
+    """Изменение настроек пользователя"""
     form = SettingsForm(obj=current_user)
     if form.validate_on_submit():
         current_user.phone = form.phone.data

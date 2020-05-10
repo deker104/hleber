@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=True)
     address = db.Column(db.String, nullable=True)
+    is_linked = db.Column(db.Boolean, default=False)
 
 
 @login_manager.user_loader

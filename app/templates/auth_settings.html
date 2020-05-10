@@ -15,6 +15,15 @@
                 {{ field(class_="form-control") }}
             </div>
         {% endfor %}
-        <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+        {% if not current_user.is_linked %}
+            <div class="form-group">
+                <a href="https://vk.me/hleber" class="text-muted" target="_blank">
+                    Подключите бота ВКонтакте для получения уведомлений
+                </a>
+            </div>
+        {% endif %}
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+        </div>
     </form>
 {% endblock %}

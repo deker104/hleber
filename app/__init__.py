@@ -5,10 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 
-__doc__ = """Модуль веб-сайта.
-Все Flask-дополнения и фабрика приложений. 
-"""
+__doc__ = """Модуль веб-сайта"""
 
+# Подключение всех дополненией
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
