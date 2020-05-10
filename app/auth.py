@@ -52,6 +52,7 @@ def auth():
     app_id = current_app.config.get('VK_APP_ID')
     secret_key = current_app.config.get('VK_SECRET_KEY')
     hash_computed = md5(f'{app_id}{user_id}{secret_key}'.encode()).hexdigest()
+    current_app.logger.debug(request.args.get('test'))
     if hash_args == hash_computed:
         user = User.query.get(user_id)
         if user is None:
