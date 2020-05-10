@@ -19,10 +19,10 @@
         <p>{{ order.text }}</p>
         <p class="text-muted">Последнее обновление: {{ order.last_updated }}</p>
         {% if order.volunteer_confirm %}
-        <p>Завершено</p>
+            <p>Завершено волонтёром</p>
         {% endif %}
         {% if order.client_confirm %}
-        <p>Подтверждено</p>
+            <p>Подтверждено клиентом</p>
         {% endif %}
         <a class="btn btn-primary" href="{{ url_for('orders.about', id=order.id) }}">Подробнее</a>
         <hr>

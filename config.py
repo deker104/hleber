@@ -22,3 +22,7 @@ class Config:
     VK_GROUP_ID = os.getenv('VK_GROUP_ID')
     VK_SECRET_KEY = os.getenv('VK_SECRET_KEY')
     VK_TOKEN = os.getenv('VK_TOKEN')
+
+
+class TestingConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
