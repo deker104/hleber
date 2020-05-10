@@ -105,13 +105,14 @@ def take(id):
     return redirect(url_for('.taken'))
 
 
-@blueprint.route('/orders/taken')
+@blueprint.route('/orders/taken/done', defaults={'done': True})
+@blueprint.route('/orders/taken', defaults={'done': False})
 @login_required
-def taken():
+def taken(done):
     """Отображение взятых заказов"""
     orders = Order.query.filter(
         Order.volunteer == current_user,
-        Order.done == False
+        Order.done == done
     ).all()
     return render_template('orders_taken.html', orders=orders)
 

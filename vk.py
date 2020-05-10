@@ -3,6 +3,7 @@ from random import randint
 from vk_api import VkApi, VkUpload
 from vk_api.bot_longpoll import VkBotLongPoll
 
+from app import create_app
 from config import Config
 
 __doc__ = """Модуль бота ВКонтакте"""
@@ -30,7 +31,13 @@ def send_message(**kwargs):
     vk_api.messages.send(random_id=random_id, **kwargs)
 
 
-if __name__ == '__main__':
+def main():
     print('VkBot started')
     for event in long_poll.listen():
         pass
+
+
+if __name__ == '__main__':
+    app = create_app()
+    with app.app_context():
+        main()
