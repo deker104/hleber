@@ -36,8 +36,7 @@ class Maps:
         })
         return requests.get('https://search-maps.yandex.ru/v1/', params).json()
 
-    @classmethod
-    def static_api(cls, l, **params):
+    def static_api(self, l, **params):
         """Static API"""
         params.update({
             'l': l

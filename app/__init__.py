@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 from maps import Maps
+from vk import VkBot
 
 __doc__ = """Модуль веб-сайта"""
 
@@ -14,6 +16,9 @@ migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'Вам необходимо войти для доступа к этой странице.'
+moment = Moment()
+
+bot = VkBot()
 maps = Maps()
 
 
@@ -25,6 +30,9 @@ def create_app(config=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    moment.init_app(app)
+
+    bot.init_app(app)
     maps.init_app(app)
 
     from app.orders import blueprint as orders_bp

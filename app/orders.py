@@ -1,4 +1,3 @@
-import requests
 from flask import Blueprint
 from flask import flash
 from flask import redirect
@@ -8,6 +7,7 @@ from flask import url_for
 from flask_login import current_user
 from flask_login import login_required
 
+from app import bot
 from app import db
 from app import maps
 from app.forms import OrderForm
@@ -54,16 +54,18 @@ def change(id):
         db.session.add(order)
         db.session.commit()
         flash('Заказ успешно изменен.')
+        bot.notify_change(order.client, order.volunteer, order)
         return redirect(url_for('.given'))
     return render_template('orders_change.html', form=form)
-
 
 
 @blueprint.route('/orders/<int:id>/delete')
 @login_required
 def delete(id):
     """Удаление заказа"""
-    db.session.query(Order).filter(Order.id == id).delete()
+    order = Order.query.get(id)
+    bot.notify_delete(order.client, order.volunteer)
+    db.session.delete(order)
     db.session.commit()
     next = request.referrer
     if next is None or not is_safe_url(next):
@@ -79,7 +81,7 @@ def free():
     orders = Order.query.filter(
         Order.volunteer_id == None,
         Order.client != current_user
-    ).all()
+    ).order_by(Order.last_updated).all()[::-1]
     return render_template('orders_free.html', orders=orders)
 
 
@@ -91,7 +93,7 @@ def given(done):
     orders = Order.query.filter(
         Order.client == current_user,
         Order.done == done
-    ).all()
+    ).order_by(Order.last_updated).all()[::-1]
     return render_template('orders_given.html', orders=orders, done=done)
 
 
@@ -125,7 +127,7 @@ def taken(done):
     orders = Order.query.filter(
         Order.volunteer == current_user,
         Order.done == done
-    ).all()
+    ).order_by(Order.last_updated).all()[::-1]
     return render_template('orders_taken.html', orders=orders, done=done)
 
 
@@ -175,6 +177,7 @@ def volunteer_confirm(id):
         order.done = True
     db.session.add(order)
     db.session.commit()
+    bot.notify_volunteer_confirm(order.volunteer, order.client)
     return redirect(url_for('orders.taken'))
 
 
@@ -188,5 +191,6 @@ def client_confirm(id):
         order.done = True
     db.session.add(order)
     db.session.commit()
+    bot.notify_client_confirm(order.client, order.volunteer, order)
     return redirect(url_for('orders.given'))
 

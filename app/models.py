@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=True)
     address = db.Column(db.String, nullable=True)
-    is_linked = db.Column(db.Boolean, default=False)
+    notify = db.Column(db.Boolean, default=False)
 
 
 @login_manager.user_loader
@@ -35,8 +35,8 @@ class Order(db.Model):
     volunteer = db.relationship('User', backref='orders_taken', foreign_keys=[volunteer_id])
     last_updated = db.Column(
         db.DateTime,
-        default=datetime.datetime.now,
-        onupdate=datetime.datetime.now
+        default=datetime.datetime.utcnow,
+        onupdate=datetime.datetime.utcnow
     )
     text = db.Column(db.Text, nullable=False)
     address = db.Column(db.String, nullable=False)

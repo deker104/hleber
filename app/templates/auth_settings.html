@@ -15,7 +15,7 @@
                 {{ field(class_="form-control") }}
             </div>
         {% endfor %}
-        {% if not current_user.is_linked %}
+        {% if not current_user.notify %}
             <div class="form-group">
                 <a href="https://vk.me/hleber" class="text-muted" target="_blank">
                     Подключите бота ВКонтакте для получения уведомлений

@@ -17,7 +17,7 @@
         <p><strong>Телефон:</strong> {{ order.phone }}</p>
         <p><strong>Адрес:</strong> {{ order.address }}</p>
         <p class="text-break">{{ order.text }}</p>
-        <p class="text-muted">Последнее обновление: {{ order.last_updated }}</p>
+        <p class="text-muted">Последнее обновление: {{ moment(order.last_updated).fromNow() }}</p>
         {% if order.volunteer_confirm %}
             <p>Завершено волонтёром</p>
         {% endif %}
