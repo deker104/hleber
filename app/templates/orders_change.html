@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="text-center">Изменение заказа</h1>
+    <hr>
+    <form method="post">
+        {{ form.csrf_token }}
+        {% for field in form if field.name != 'csrf_token' %}
+            {% for error in field.errors %}
+                <div class="alert alert-primary" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                {{ field.label() }}
+                {{ field(class_="form-control") }}
+                {% if field.name == 'address' %}
+                    <small class="form-text text-muted">Город указывать не нужно.</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Изменить заявку</button>
+    </form>
+{% endblock %}

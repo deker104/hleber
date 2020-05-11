@@ -44,8 +44,18 @@ def create():
 @blueprint.route('/orders/<int:id>/change', methods=['GET', 'POST'])
 @login_required
 def change(id):
-    """Изменение заказа"""
-    pass
+    order = Order.query.get(id)
+    form = OrderCreateForm(obj=order)
+    if form.validate_on_submit():
+        order.address = form.address.data
+        order.phone = form.phone.data
+        order.text = form.text.data
+        db.session.add(order)
+        db.session.commit()
+        flash('Заказ успешно изменен.')
+        return redirect(url_for('.given'))
+    return render_template('orders_change.html', form=form)
+
 
 
 @blueprint.route('/orders/<int:id>/delete')

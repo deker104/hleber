@@ -28,7 +28,8 @@
             <p>Подтверждено клиентом</p>
         {% else %}
             <a class="btn btn-primary" href="{{ url_for('orders.delete', id=order.id) }}">Удалить</a>
-            <a class="btn btn-primary" href="{{ url_for('orders.client_confirm', id=order.id) }}">Завершить</a>
+            <a class="btn btn-primary" href="{{ url_for('orders.client_confirm', id=order.id) }}">Завершить</a><br><br>
+            <a class="btn btn-primary" href="{{ url_for('orders.change', id=order.id) }}">Редактировать</a>
         {% endif %}
         <hr>
     {% endfor %}
