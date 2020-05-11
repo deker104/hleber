@@ -142,6 +142,7 @@ def about(id):
             "text": "супермаркет",
             "lang": "ru_RU",
             "ll": address_ll,
+            "spn": "0.005,0.005",
             "type": "biz"
         }
 
@@ -150,8 +151,23 @@ def about(id):
         organization = json_response["features"][0]
         point = organization["geometry"]["coordinates"]
         org_point = "{0},{1}".format(point[0], point[1])
-        print(org_point)
-        map_request = f"""http://static-maps.yandex.ru/1.x/?pt={cs[0]},{cs[1]},pm2rdm~{org_point},pm2lbm&l=map"""
+        search_params = {
+            "apikey": api_key,
+            "text": "аптека",
+            "lang": "ru_RU",
+            "ll": address_ll,
+            "spn": "0.005,0.005",
+            "type": "biz"
+        }
+
+        response = requests.get(search_api_server, params=search_params)
+        json_response = response.json()
+        organization = json_response["features"][0]
+        point = organization["geometry"]["coordinates"]
+        org_point1 = "{0},{1}".format(point[0], point[1])
+        map_request = f"http://static-maps.yandex.ru/1.x/?pt={cs[0]},{cs[1]},pm2rdm~{org_point},pm2lbm~{org_point1}," +\
+                      "pm2gnm&l=map"
+        print(map_request)
     return render_template('orders_about.html', order=order, map_file=map_request)
 
 
