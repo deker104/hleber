@@ -8,7 +8,7 @@
     <a href="{{ map_file }}" target="_blank">
         <img src="{{ map_file }}" alt="Адрес указан некорректно" class="mb-3 img-fluid">
     </a>
-    <p>{{ order.text }}</p>
+    <p class="text-break">{{ order.text }}</p>
     <a class="btn btn-primary" href="{{ url_for('orders.volunteer_confirm', id=order.id) }}">Закончить заказ</a>
     <br>
 {% endblock %}

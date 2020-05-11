@@ -10,7 +10,7 @@ from flask_login import login_required
 
 from app import db
 from app import maps
-from app.forms import OrderCreateForm
+from app.forms import OrderForm
 from app.models import Order
 from helpers import is_safe_url
 
@@ -27,7 +27,7 @@ blueprint = Blueprint(
 @login_required
 def create():
     """Создание заказа"""
-    form = OrderCreateForm(obj=current_user)
+    form = OrderForm(obj=current_user)
     if form.validate_on_submit():
         order = Order(
             address=form.address.data,
@@ -46,7 +46,7 @@ def create():
 @login_required
 def change(id):
     order = Order.query.get(id)
-    form = OrderCreateForm(obj=order)
+    form = OrderForm(obj=order)
     if form.validate_on_submit():
         order.address = form.address.data
         order.phone = form.phone.data

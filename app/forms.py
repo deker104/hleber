@@ -19,7 +19,7 @@ class PhoneValidator(Regexp):
         )
 
 
-class OrderCreateForm(FlaskForm):
+class OrderForm(FlaskForm):
     """Форма создания нового заказа"""
     phone = StringField("Номер телефона", validators=[DataRequired(), PhoneValidator()])
     address = StringField("Адрес доставки", validators=[DataRequired()])

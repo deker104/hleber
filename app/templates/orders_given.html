@@ -15,7 +15,7 @@
     {% for order in orders %}
         <strong>{{ order.client.first_name }} {{ order.client.last_name }}</strong>
         <p><strong>Телефон:</strong> {{ order.phone }}</p>
-        <p>{{ order.text }}</p>
+        <p class="text-break">{{ order.text }}</p>
         <p class="text-muted">Последнее обновление: {{ order.last_updated }}</p>
         {% if order.volunteer_id %}
             <p><strong>Волонтер:</strong> {{ order.volunteer.first_name }} {{ order.volunteer.last_name }}</p>
@@ -28,8 +28,10 @@
             <p>Подтверждено клиентом</p>
         {% else %}
             <a class="btn btn-primary" href="{{ url_for('orders.delete', id=order.id) }}">Удалить</a>
-            <a class="btn btn-primary" href="{{ url_for('orders.client_confirm', id=order.id) }}">Завершить</a><br><br>
             <a class="btn btn-primary" href="{{ url_for('orders.change', id=order.id) }}">Редактировать</a>
+            {% if order.volunteer %}
+                <a class="btn btn-primary" href="{{ url_for('orders.client_confirm', id=order.id) }}">Завершить</a>
+            {% endif %}
         {% endif %}
         <hr>
     {% endfor %}
