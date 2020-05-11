@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
+from maps import Maps
 
 __doc__ = """Модуль веб-сайта"""
 
@@ -13,6 +14,7 @@ migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'Вам необходимо войти для доступа к этой странице.'
+maps = Maps()
 
 
 def create_app(config=Config):
@@ -23,6 +25,7 @@ def create_app(config=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    maps.init_app(app)
 
     from app.orders import blueprint as orders_bp
     app.register_blueprint(orders_bp)

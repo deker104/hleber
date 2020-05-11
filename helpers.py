@@ -42,4 +42,4 @@ def is_safe_url(target):
 
 def build_url(url_base, **params):
     """Функция для удобного построения URL"""
-    return url_base + urlencode(params)
+    return f'{url_base}?{urlencode(params)}'

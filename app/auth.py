@@ -50,10 +50,11 @@ def settings():
 @blueprint.route('/auth')
 def auth():
     """Обработка авторизации ВКонтакте"""
-    hash_args = request.args.get('hash')
     user_id = request.args.get('uid')
     app_id = current_app.config.get('VK_APP_ID')
     secret_key = current_app.config.get('VK_SECRET_KEY')
+    # Проверка хэша авторизации
+    hash_args = request.args.get('hash')
     hash_computed = md5(f'{app_id}{user_id}{secret_key}'.encode()).hexdigest()
     if hash_args == hash_computed:
         user = User.query.get(user_id)
