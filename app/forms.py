@@ -28,6 +28,6 @@ class OrderCreateForm(FlaskForm):
 
 class SettingsForm(FlaskForm):
     """Форма изменения настроек"""
-    phone = StringField('Номер телефона', validators=[PhoneValidator()])
+    phone = StringField('Номер телефона', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Домашний адрес')
 
