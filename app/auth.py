@@ -34,13 +34,16 @@ def login():
 def settings():
     """Изменение настроек пользователя"""
     form = SettingsForm(obj=current_user)
+    next = request.args.get('next')
+    if next is None or not is_safe_url(next):
+        next = url_for('.settings')
     if form.validate_on_submit():
         current_user.phone = form.phone.data
         current_user.address = form.address.data
         db.session.add(current_user)
         db.session.commit()
         flash('Настройки успешно изменены.')
-        return redirect(url_for('.settings'))
+        return redirect(next)
     return render_template('auth_settings.html', form=form)
 
 
@@ -52,9 +55,11 @@ def auth():
     app_id = current_app.config.get('VK_APP_ID')
     secret_key = current_app.config.get('VK_SECRET_KEY')
     hash_computed = md5(f'{app_id}{user_id}{secret_key}'.encode()).hexdigest()
-    current_app.logger.debug(request.args.get('test'))
     if hash_args == hash_computed:
         user = User.query.get(user_id)
+        next = request.args.get('next')
+        if next is None or not is_safe_url(next):
+            next = url_for('main.index')
         if user is None:
             user = User(
                 id=user_id,
@@ -63,15 +68,13 @@ def auth():
             )
             db.session.add(user)
             db.session.commit()
-            flash('Вы успешно зарегестрировались. '
-                  'Сейчас вы можете дополнительно настроить свой профиль.')
-            return redirect(url_for('.settings'))
+            flash(
+                'Вы успешно зарегестрировались. '
+                'Сейчас вы можете дополнительно настроить свой профиль.'
+            )
+            return redirect(url_for('.settings', next=next))
         login_user(user)
-        next = session.get('next')
-        if next is None or not is_safe_url(next):
-            next = url_for('main.index')
         flash('Вы вошли в свой аккаунт.')
-        session['next'] = ''
         return redirect(next)
 
 

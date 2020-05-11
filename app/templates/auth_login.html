@@ -4,6 +4,12 @@
     <hr>
     <div id="vk_auth" class="mx-auto"></div>
     <script type="text/javascript">
-        VK.Widgets.Auth('vk_auth', {"width":300, "authUrl":"{{ url_for('auth.auth', test='test') }}"});
+        VK.Widgets.Auth(
+            'vk_auth',
+            {
+                "width":300,
+                "authUrl":"{{ url_for('auth.auth', next=request.args.get('next')) }}"
+            }
+        );
     </script>
 {% endblock %}

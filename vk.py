@@ -4,6 +4,7 @@ from vk_api import VkApi, VkUpload
 from vk_api.bot_longpoll import VkBotLongPoll
 
 from app import create_app
+from app.models import User
 from config import Config
 
 __doc__ = """Модуль бота ВКонтакте"""
@@ -34,7 +35,7 @@ def send_message(**kwargs):
 def main():
     print('VkBot started')
     for event in long_poll.listen():
-        pass
+        user = User.query.get(event.from_id)
 
 
 if __name__ == '__main__':
