@@ -6,6 +6,8 @@ from app import create_app
 from app import db
 from app.models import User
 
+__doc__ = "Основной скрипт бота"
+
 
 def main():
     long_poll = VkBotLongPoll(bot.vk, bot.group_id)
