@@ -14,7 +14,6 @@ class Config:
     """Объект, содержащий всю конфигурацию проекта"""
     GEOCODER_KEY = os.getenv('GEOCODER_KEY')
     GEOSEARCH_KEY = os.getenv('GEOSEARCH_KEY')
-    PREFERRED_URL_SCHEME = os.getenv('PREFERRED_URL_SCHEME') or 'https'
     SECRET_KEY = os.getenv('SECRET_KEY') or 'test-secret-key'
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or 'sqlite:///' + join(BASEDIR, 'db.sqlite3')
     SQLALCHEMY_TRACK_MODIFICATIONS = False

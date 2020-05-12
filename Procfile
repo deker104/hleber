@@ -1,3 +1,3 @@
 release: flask db upgrade
-web: gunicorn wsgi:app
-worker: python vk.py
+web: gunicorn app.wsgi:app
+worker: python vk/bot.py

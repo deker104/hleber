@@ -39,19 +39,19 @@ class VkBot:
     def send_message(self, **kwargs):
         """Упрощённая отправка сообщений: можно забыть о достающем random_id"""
         random_id = randint(0, MAX_RANDOM)
-        self.api.messages.send(random_id=random_id, **kwargs)
+        return self.api.messages.send(random_id=random_id, **kwargs)
 
     def notify(self, message, to_user):
         if not to_user or not to_user.notify:
             return
-        self.send_message(user_id=to_user.id, message=message)
+        return self.send_message(user_id=to_user.id, message=message)
 
     def notify_change(self, from_user, to_user, order):
         """Оповещение об изменении заказа"""
         message = \
             f"Клиент {from_user.first_name} {from_user.last_name} изменил параметры заказа.\n\n" \
             f"Ссылка на заказ: {url_for('orders.about', id=order.id, _external=True)}"
-        self.notify(message, to_user)
+        return self.notify(message, to_user)
 
     def notify_delete(self, from_user, to_user):
         """Оповещение об удалении заказа"""
@@ -59,18 +59,18 @@ class VkBot:
             f"Клиент {from_user.first_name} {from_user.last_name} удалил свой заказ." \
             f"Вы были автоматически освобождены от его выполнения.\n\n" \
             f"Список активных заказов: {url_for('orders.taken', _external=True)}"
-        self.notify(message, to_user)
+        return self.notify(message, to_user)
 
     def notify_client_confirm(self, from_user, to_user, order):
         """Оповещение о подтверждении заказа клиентом"""
         message = \
             f"Клиент {from_user.first_name} {from_user.last_name} подтвердил выполнение заказа.\n\n" \
             f"Ссылка на заказ: {url_for('orders.about', id=order.id, _external=True)}"
-        self.notify(message, to_user)
+        return self.notify(message, to_user)
 
     def notify_volunteer_confirm(self, from_user, to_user):
         """Оповещение о завершении заказа волонтёром"""
         message = \
             f"Волонтёр {from_user.first_name} {from_user.last_name} отметил заказ как выполненый.\n\n" \
             f"Список ваших заказов: {url_for('orders.given', _external=True)}"
-        self.notify(message, to_user)
+        return self.notify(message, to_user)
