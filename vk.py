@@ -74,3 +74,10 @@ class VkBot:
             f"Волонтёр {from_user.first_name} {from_user.last_name} отметил заказ как выполненый.\n\n" \
             f"Список ваших заказов: {url_for('orders.given', _external=True)}"
         return self.notify(message, to_user)
+
+    def notify_take(self, from_user, to_user):
+        """Оповещение о принятии заказа"""
+        message = \
+            f"Волонтёр {from_user.first_name} {from_user.last_name} стал исполнителем вашего заказа.\n\n" \
+            f"Список ваших заказов: {url_for('orders.given', _external=True)}"
+        return self.notify(message, to_user)

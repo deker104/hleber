@@ -3,6 +3,7 @@ from vk_api.bot_longpoll import VkBotLongPoll
 
 from app import bot
 from app import create_app
+from app import db
 from app.models import User
 
 
@@ -20,14 +21,17 @@ def main():
                 f"{url_for('auth.login')}"
         elif not user.notify:
             user.notify = True
+            db.session.add(user)
             message = \
                 "Уведомления включены.\n" \
                 "Для отключения уведомлений напишите \"Отключить\""
         elif 'отключить' in event.message.text.lower():
             user.notify = False
+            db.session.add(user)
             message = \
                 "Уведомления отключены.\n" \
                 "Для включения уведомлений напишите любое сообщение."
+        db.session.commit()
         if message is not None:
             bot.send_message(
                 peer_id=event.message.peer_id,

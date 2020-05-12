@@ -115,6 +115,7 @@ def take(id):
     order.volunteer = current_user
     db.session.add(order)
     db.session.commit()
+    bot.notify_take(order.volunteer, order.client)
     flash('Вы приняли заказ.')
     return redirect(url_for('.taken'))
 
